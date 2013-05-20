@@ -17,7 +17,7 @@ function _toggleClass(elem, className) {
 function ResponsiveMenu(settings) {
     if(!settings) return;
 
-    this.nav = document.getElementsByClassName(settings.navClass);
+    this.nav = document.getElementsByClassName(settings.navClass)[0];
     this.mobile = settings.mobileClass;
     this.toggle = document.getElementsByClassName(settings.toggleClass)[0];
     this.innerToggle = settings.innerToggle ? document.getElementsByClassName(settings.innerToggle) : false;
@@ -31,7 +31,7 @@ function ResponsiveMenu(settings) {
 ResponsiveMenu.prototype.createMenu = function() {
     this.mobileElem = document.createElement('div');
     this.mobileElem.className = this.mobile;
-    this.nav[0].appendChild(this.mobileElem);
+    this.nav.appendChild(this.mobileElem);
 };
 ResponsiveMenu.prototype.bindHandlers = function() {
     var _self = this;
