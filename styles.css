@@ -76,6 +76,12 @@ li, ul li, ol li {
     .nav-active, .nav-active-inner .nav-inner {
         display:block;
     }
+    .nav-active a {
+        color: teal;
+    }
+    .nav-active-inner a {
+        color: red;
+    }
     .nav-mobile-open {
         border-radius:5px 5px 0 0;
         -webkit-border-radius:5px 5px 0 0;

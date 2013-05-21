@@ -26,6 +26,8 @@ function ResponsiveMenu(settings) {
     this.toggleActive = settings.toggleActive || 'nav-active';
     this.innerToggleActive = settings.innerToggleActive || 'nav-active-inner';
 
+    this.jQuery = (window.jQuery) ? jQuery : false;
+
     this.init();
 }
 ResponsiveMenu.prototype.createMenu = function() {
@@ -38,11 +40,19 @@ ResponsiveMenu.prototype.bindHandlers = function() {
     var piece = void 0;
 
     this.mobileElem.addEventListener('click', function() {
-        _toggleClass(this, _self.navOpen);
-        _toggleClass(_self.toggle, _self.toggleActive);
+        if(_self.jQuery) {
+            _self.jQuery(_self.toggle).slideToggle(function() {
+                _toggleClass(this, _self.navOpen);
+                _toggleClass(_self.toggle, _self.toggleActive);
+            });
+        }
+        else {
+            _toggleClass(this, _self.navOpen);
+            _toggleClass(_self.toggle, _self.toggleActive);
+        }
     });
 
-    if( this.innerToggle ) {
+    if( this.innerToggle && !this.jQuery ) {
         for( piece in this.innerToggle ) {
             if( !isNaN( parseInt(piece) ) ) {
                 this.innerToggle[piece].addEventListener('click', function() {
@@ -50,6 +60,18 @@ ResponsiveMenu.prototype.bindHandlers = function() {
                 });
             }
         }
+    }
+
+    if( this.jQuery ) {
+        this.jQuery( this.innerToggle ).on({
+            click: function() {
+                var trigger = this;
+                var menu = jQuery(this).find('ul');
+                menu.slideToggle(function() {
+                    _toggleClass(trigger, _self.innerToggleActive);
+                });
+            }
+        });
     }
 };
 ResponsiveMenu.prototype.init = function() {
@@ -64,6 +86,7 @@ ResponsiveMenu.prototype.init = function() {
         mobileClass: 'nav-mobile', // Class for the mobile navigation trigger to create and append => not a Selector
         toggleClass: 'nav-list', // Class of the navigation list (the <ul> for example) => CSS Selector
         innerToggle: 'has-inner', // Class of inner toggle elements => CSS Selector, parents of sub elements
+        innerToggleClass: 'nav-inner', // Class for inner navigation => CSS Selector
 
         /* Open State */
         navOpen: 'nav-mobile-open',
