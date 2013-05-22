@@ -42,6 +42,7 @@ ResponsiveMenu.prototype.bindHandlers = function() {
     this.mobileElem.addEventListener('click', function() {
         if(_self.jQuery) {
             _self.jQuery(_self.toggle).slideToggle(function() {
+                _self.jQuery(this).attr('style', '');
                 _toggleClass(this, _self.navOpen);
                 _toggleClass(_self.toggle, _self.toggleActive);
             });
